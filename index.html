@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BINGO WITH AMAN</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <div id="home" class="screen active">
+    <div class="menu">
+      <button onclick="goTo('modes')">Start</button>
+      <button onclick="goTo('settings')">Settings</button>
+      <button onclick="quitGame()">Quit</button>
+    </div>
+  </div>
+
+  <div id="modes" class="screen">
+    <div class="menu">
+      <button onclick="startGame('girl')">Girl Mode</button>
+      <button onclick="startGame('men')">Men Mode</button>
+      <button onclick="startGame('sigma')">Sigma Mode</button>
+      <button onclick="goTo('home')">Back</button>
+    </div>
+  </div>
+
+  <div id="settings" class="screen">
+    <div class="menu">
+      <button onclick="toggleMusic()">Music On / Off</button>
+      <button onclick="goTo('credits')">Credits</button>
+      <button onclick="goTo('home')">Back</button>
+    </div>
+  </div>
+
+  <div id="credits" class="screen">
+    <div class="top-left">
+      <button onclick="goTo('settings')">Back</button>
+    </div>
+    <h1>CREATED BY AMAN GOURAV</h1>
+  </div>
+
+  <div id="game" class="screen game-layout">
+    <div id="bingo-letters">B I N G O</div>
+    <div id="board"></div>
+    <div id="history"></div>
+  </div>
+
+  <div id="result" class="overlay">
+    <h1 id="resultText"></h1>
+    <button onclick="exposeBoard()">EXPOSE</button>
+    <div id="computerBoard"></div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
