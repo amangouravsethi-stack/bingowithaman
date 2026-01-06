@@ -64,12 +64,45 @@ function userMove(num, cell) {
 
 function computerMove() {
   if (gameOver) return;
-  const available = userBoard.filter(n => !userCuts.has(n));
-  const choice = available[Math.floor(Math.random() * available.length)];
+  
+  // 🔥 SIGMA BOT: Only looks at OWN board
+  const bestMove = findBestMove(compBoard, compCuts);
+  const choice = bestMove || pickRandom(compBoard, compCuts);
+  
   cutNumber(choice);
   document.querySelectorAll('.cell').forEach(c => {
-    if (c.textContent == choice) c.classList.add('cut');
+    if (parseInt(c.textContent) == choice) c.classList.add('cut');
   });
+}
+
+function findBestMove(board, cuts) {
+  // Check all rows/columns/diagonals for 4/5 complete
+  const lines = getAllLines(board);
+  
+  for (let line of lines) {
+    const unmarked = line.filter(pos => !cuts.has(board[pos]));
+    if (unmarked.length === 1) {
+      return board[unmarked[0]]; // Complete this line!
+    }
+  }
+  return null;
+}
+
+function pickRandom(board, cuts) {
+  const available = board.filter(n => !cuts.has(n));
+  return available[Math.floor(Math.random() * available.length)];
+}
+
+function getAllLines(board) {
+  const lines = [];
+  // 5 rows
+  for (let r = 0; r < 5; r++) lines.push([r*5, r*5+1, r*5+2, r*5+3, r*5+4]);
+  // 5 columns  
+  for (let c = 0; c < 5; c++) lines.push([c, 5+c, 10+c, 15+c, 20+c]);
+  // 2 diagonals
+  lines.push([0,6,12,18,24]);
+  lines.push([4,8,12,16,20]);
+  return lines;
 }
 
 function cutNumber(num) {
@@ -86,23 +119,21 @@ function checkWin() {
   if (countLines(compCuts) >= 5) endGame(false);
 }
 
-function countLines(cuts) {
+function countLines(cuts, board) {  // Add board parameter
   let lines = 0;
-  const g = userBoard;
-  const m = i => cuts.has(g[i]);
-
-  for (let r = 0; r < 5; r++)
-    if ([0,1,2,3,4].every(c => m(r*5+c))) lines++;
-
-  for (let c = 0; c < 5; c++)
-    if ([0,1,2,3,4].every(r => m(r*5+c))) lines++;
-
-  if ([0,6,12,18,24].every(m)) lines++;
-  if ([4,8,12,16,20].every(m)) lines++;
-
+  const linesToCheck = getAllLines(board);  // Use same line finder
+  
+  for (let linePositions of linesToCheck) {
+    if (linePositions.every(pos => cuts.has(board[pos]))) lines++;
+  }
   return lines;
 }
 
+// Update calls:
+function checkWin() {
+  if (countLines(userCuts, userBoard) >= 5) endGame(true);
+  if (countLines(compCuts, compBoard) >= 5) endGame(false);  // Fixed!
+}
 function endGame(userWon) {
   gameOver = true;
   const overlay = document.getElementById('result');
