@@ -153,3 +153,12 @@ function exposeBoard() {
     cb.appendChild(d);
   });
 }
+  function playAgain() {
+  document.getElementById('result').classList.remove('show');
+  startGame('sigma');  // Or whatever mode you want
+}
+
+function goToHome() {
+  document.getElementById('result').classList.remove('show');
+  goTo('home');
+}
