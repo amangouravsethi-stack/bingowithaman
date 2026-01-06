@@ -47,14 +47,16 @@
     <div id="history"></div>
   </div>
 
-  <div id="result" class="overlay">
-    <h1 id="resultText"></h1>
-    <button onclick="exposeBoard()">EXPOSE</button>
-    <div id="computerBoard"></div>
+ <div id="result" class="overlay">
+  <h1 id="resultText"></h1>
+  <button onclick="exposeBoard()">EXPOSE</button>
+  <div id="computerBoard"></div>
+  <div style="margin-top:20px">
+    <button onclick="playAgain()" style="margin:5px;padding:10px;font-size:18px">Play Again</button>
+    <button onclick="goTo('home')" style="margin:5px;padding:10px;font-size:18px">Main Menu</button>
   </div>
-
 </div>
-
+  
 <script src="script.js"></script>
 </body>
 </html>
